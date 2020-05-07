@@ -120,7 +120,6 @@ class TestEnclosureFactsModule(OneViewBaseFactsTest):
         self.mock_ansible_module.exit_json.assert_called_once_with(
             changed=False,
             ansible_facts=dict(enclosures=PRESENT_ENCLOSURES,
-                               enclosure_script=ENCLOSURE_SCRIPT,
                                enclosure_environmental_configuration=ENCLOSURE_ENVIRONMENTAL_CONFIG,
                                enclosure_utilization=ENCLOSURE_UTILIZATION)
         )
