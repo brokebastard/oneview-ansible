@@ -522,7 +522,7 @@ class ServerProfileModule(OneViewModule):
             return
 
         self.module.log(msg="Finding an available server hardware")
-        if self.api_version <= 1600:
+        if self.api_version <= 1200:
             available_server_hardware = self.resource_client.get_available_servers(
                 enclosureGroupUri=enclosure_group,
                 serverHardwareTypeUri=server_hardware_type)

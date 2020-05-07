@@ -124,8 +124,11 @@ class EnclosureGroupModule(OneViewModule):
 
     def execute_module(self):
         if self.state == 'present':
-            if self.current_resource in self.data:
-                return self.resource_present('enclosure_group')
+            if self.current_resource and "configurationScript" in self.data:
+                if self.data['configurationScript'] == self.current_resource.get_script():
+                    del self.data['configurationScript']
+                    
+            return self.resource_present('enclosure_group')
         elif self.state == 'absent':
             return self.resource_absent()
 

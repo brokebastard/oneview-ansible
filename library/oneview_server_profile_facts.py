@@ -140,7 +140,7 @@ EXAMPLES = '''
         - availableNetworks:
             enclosureGroupUri: '/rest/enclosure-groups/3af25c76-dec7-4753-83f6-e1ad06c29a43'
             serverHardwareTypeUri: '/rest/server-hardware-types/C8DEF9A6-9586-465E-A951-3070988BC226'
-        - availableTargets
+        - availableServers
         - availableStorageSystem:
             storageSystemId: "{{storage_system_id}}"
             enclosureGroupUri: '/rest/enclosure-groups/3af25c76-dec7-4753-83f6-e1ad06c29a43'
