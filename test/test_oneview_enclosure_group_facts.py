@@ -89,7 +89,6 @@ class TestEnclosureGroupFactsModule(OneViewBaseFactsTest):
         EnclosureGroupFactsModule().run()
 
         self.resource.get_by_name.assert_called_once_with(ENCLOSURE_GROUP_NAME)
-        self.resource.get_script.assert_called_once()
 
         self.mock_ansible_module.exit_json.assert_called_once_with(
             changed=False,
