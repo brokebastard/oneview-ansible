@@ -37,7 +37,7 @@ PARAMS_GET_BY_NAME = dict(
 PARAMS_GET_BY_NAME_WITH_OPTIONS = dict(
     config='config.json',
     name="Test-Enclosure",
-    options=['utilization', 'environmentalConfiguration', 'script']
+    options=['utilization', 'environmentalConfiguration']
 )
 
 PARAMS_GET_UTILIZATION_WITH_PARAMS = dict(
@@ -54,8 +54,6 @@ PRESENT_ENCLOSURES = [{
     "name": "Test-Enclosure",
     "uri": "/rest/enclosures/c6bf9af9-48e7-4236-b08a-77684dc258a5"
 }]
-
-ENCLOSURE_SCRIPT = '# script content'
 
 ENCLOSURE_UTILIZATION = {
     "isFresh": "True"
@@ -109,7 +107,6 @@ class TestEnclosureFactsModule(OneViewBaseFactsTest):
         self.resource.get_by_uri.return_value = self.resource
         self.resource.get_by.return_value = PRESENT_ENCLOSURES
 
-        self.resource.get_script.return_value = ENCLOSURE_SCRIPT
         self.resource.get_utilization.return_value = ENCLOSURE_UTILIZATION
         self.resource.get_environmental_configuration.return_value = ENCLOSURE_ENVIRONMENTAL_CONFIG
 
@@ -127,7 +124,6 @@ class TestEnclosureFactsModule(OneViewBaseFactsTest):
     def test_should_get_all_utilization_data(self):
         self.resource.data = PRESENT_ENCLOSURES
         self.resource.get_by_name.return_value = self.resource
-        self.resource.get_script.return_value = ENCLOSURE_SCRIPT
         self.resource.get_utilization.return_value = ENCLOSURE_UTILIZATION
         self.resource.get_environmental_configuration.return_value = ENCLOSURE_ENVIRONMENTAL_CONFIG
 
@@ -144,7 +140,6 @@ class TestEnclosureFactsModule(OneViewBaseFactsTest):
         self.resource.data = PRESENT_ENCLOSURES
         self.resource.get_by_name.return_value = self.resource
 
-        self.resource.get_script.return_value = ENCLOSURE_SCRIPT
         self.resource.get_utilization.return_value = ENCLOSURE_UTILIZATION
         self.resource.get_environmental_configuration.return_value = ENCLOSURE_ENVIRONMENTAL_CONFIG
 
