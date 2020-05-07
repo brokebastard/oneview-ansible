@@ -70,7 +70,7 @@
         config: "{{ config }}"
         data:
           name: "{{ inventory_hostname }}-with-connections"
-          connectionSettings:  # Supported only in API vesrion >= 600.
+          connectionSettings:  # Supported only in API version >= 600.
             connections:
               - id: 1
                 name: connection1

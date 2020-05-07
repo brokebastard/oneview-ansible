@@ -1,14 +1,20 @@
 # Ansible Modules for HPE OneView Change Log
 
 ## v5.6.0(unreleased)
-This release extends the planned support of the modules to OneView REST API version 1600 (OneView v5.2).
+This release extends the planned support of the modules to OneView REST API version 800 (OneView v4.1), 1000 (OneView v4.2) and 1200 (OneView v5.0) and 1600(Oneview v5.2).
 
 #### Modules supported in this release
-- oneview_enclosures
+- oneview_enclosure
+- oneview_enclosure_facts
 - oneview_enclosure_group
+- oneview_enclosure_group_facts
 - oneview_logical_enclosures
+- oneview_logical_enclosures_facts
 - oneview_server_profile
+- oneview_server_profile_facts
 - oneview_server_profile_template
+- oneview_server_profile_template_facts
+- oneview_task_facts
 
 ## v5.5.0
 This release extends the planned support of the modules to OneView REST API version 800 (OneView v4.1), 1000 (OneView v4.2) and 1200 (OneView v5.0).

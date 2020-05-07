@@ -53,7 +53,7 @@ EXAMPLES = '''
     hostname: 172.16.101.48
     username: administrator
     password: my_password
-    api_version: 1200
+    api_version: 1600
     state: present
     data:
         name: "Enclosure Group 1"
@@ -74,7 +74,7 @@ EXAMPLES = '''
         hostname: 172.16.101.48
         username: administrator
         password: my_password
-        api_version: 1200
+        api_version: 1600
         state: present
         data:
             name: "Enclosure Group 1"
@@ -86,7 +86,7 @@ EXAMPLES = '''
     hostname: 172.16.101.48
     username: administrator
     password: my_password
-    api_version: 1200
+    api_version: 1600
     state: absent
     data:
       name: "Enclosure Group 1 (renamed)"
@@ -124,11 +124,8 @@ class EnclosureGroupModule(OneViewModule):
 
     def execute_module(self):
         if self.state == 'present':
-            if self.current_resource and "configurationScript" in self.data:
-                if self.data['configurationScript'] == self.current_resource.get_script():
-                    del self.data['configurationScript']
-
-            return self.resource_present('enclosure_group')
+            if self.current_resource in self.data:
+                return self.resource_present('enclosure_group')
         elif self.state == 'absent':
             return self.resource_absent()
 
