@@ -59,6 +59,14 @@ YAML_ENCLOSURE_GROUP_CHANGES = """
             - interconnectBay: 8
       """
 
+YAML_ENCLOSURE_GROUP_CHANGE_SCRIPT = """
+    config: "{{ config }}"
+    state: present
+    data:
+        name: "Enclosure Group 1"
+        configurationScript: "# test script "
+      """
+
 YAML_ENCLOSURE_GROUP_ABSENT = """
         config: "{{ config }}"
         state: absent
@@ -117,6 +125,43 @@ class TestEnclosureGroupModule(OneViewBaseTest):
             changed=True,
             msg=EnclosureGroupModule.MSG_UPDATED,
             ansible_facts=dict(enclosure_group=self.resource.data)
+        )
+
+    def test_update_when_script_attribute_was_modified(self):
+        data_merged = DICT_DEFAULT_ENCLOSURE_GROUP.copy()
+        data_merged['newName'] = 'New Name'
+        data_merged['uri'] = '/rest/uri'
+
+        self.resource.data = data_merged
+        self.resource.get_script.return_value = "# test script"
+
+        self.mock_ansible_module.params = yaml.load(YAML_ENCLOSURE_GROUP_CHANGE_SCRIPT)
+
+        EnclosureGroupModule().run()
+
+        self.mock_ansible_module.exit_json.assert_called_once_with(
+            changed=True,
+            msg=EnclosureGroupModule.MSG_UPDATED,
+            ansible_facts=dict(enclosure_group=self.resource.data)
+        )
+
+    def test_update_when_script_attribute_was_not_modified(self):
+        data_merged = DICT_DEFAULT_ENCLOSURE_GROUP.copy()
+        data_merged['newName'] = 'New Name'
+        data_merged['uri'] = '/rest/uri'
+
+        self.resource.data = data_merged
+        self.resource.update_script.return_value = ""
+        self.resource.get_script.return_value = "# test script "
+
+        self.mock_ansible_module.params = yaml.load(YAML_ENCLOSURE_GROUP_CHANGE_SCRIPT)
+
+        EnclosureGroupModule().run()
+
+        self.mock_ansible_module.exit_json.assert_called_once_with(
+            changed=False,
+            msg=EnclosureGroupModule.MSG_ALREADY_PRESENT,
+            ansible_facts=dict(enclosure_group=data_merged)
         )
 
     def test_should_remove_enclosure_group(self):

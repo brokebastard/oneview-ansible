@@ -37,6 +37,12 @@ PARAMS_GET_BY_NAME = dict(
     options=None
 )
 
+PARAMS_GET_BY_NAME_WITH_OPTIONS = dict(
+    config='config.json',
+    name="Test Logical Enclosures",
+    options=['script']
+)
+
 
 @pytest.mark.resource(TestLogicalEnclosureFactsModule='logical_enclosures')
 class TestLogicalEnclosureFactsModule(OneViewBaseFactsTest):
@@ -62,6 +68,20 @@ class TestLogicalEnclosureFactsModule(OneViewBaseFactsTest):
         self.mock_ansible_module.exit_json.assert_called_once_with(
             changed=False,
             ansible_facts=dict(logical_enclosures=LOGICAL_ENCLOSURE)
+        )
+
+    def test_should_get_logical_enclosure_by_name_with_options(self):
+        self.resource.data = LOGICAL_ENCLOSURE
+        self.resource.get_script.return_value = "# script code"
+
+        self.mock_ansible_module.params = PARAMS_GET_BY_NAME_WITH_OPTIONS
+
+        LogicalEnclosureFactsModule().run()
+
+        self.mock_ansible_module.exit_json.assert_called_once_with(
+            changed=False,
+            ansible_facts=dict(logical_enclosures=LOGICAL_ENCLOSURE,
+                               logical_enclosure_script="# script code")
         )
 
 

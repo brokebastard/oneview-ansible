@@ -529,7 +529,7 @@ class ServerProfileModule(OneViewModule):
         else:
             available_server_hardware = self.resource_client.get_available_targets(
                 enclosureGroupUri=enclosure_group,
-                serverHardwareTypeUri=server_hardware_type)
+                serverHardwareTypeUri=server_hardware_type)['targets']
 
 
         # targets will list empty bays. We need to pick one that has a server
