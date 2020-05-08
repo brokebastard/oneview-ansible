@@ -531,7 +531,6 @@ class ServerProfileModule(OneViewModule):
                 enclosureGroupUri=enclosure_group,
                 serverHardwareTypeUri=server_hardware_type)['targets']
 
-
         # targets will list empty bays. We need to pick one that has a server
         index = 0
         server_hardware_uri = None
