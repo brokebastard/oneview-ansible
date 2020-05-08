@@ -38,13 +38,13 @@
   vars:
     - config: "{{ playbook_dir }}/oneview_config.json"
     # Set the name of the server profile template that will be used to provision the server profile
-    - ov_template:  ProfileTemplate101
+    - ov_template:  spt_basic
     # Set the name of an existing enclosure group to run this example
-    - enclosure_group_name: SYN03_EC
+    - enclosure_group_name: EG
     # Set the name of an existing server hardware type to run this example
-    - server_hardware_type_name: SY 480 Gen9 4
+    - server_hardware_type_name: SY 480 Gen10 1
     # Set the name of an existing ethernet network
-    - network_name: eth77
+    - network_name: test
   tasks:
     - name: Create a Server Profile from a Server Profile Template
       oneview_server_profile:
@@ -70,6 +70,7 @@
         config: "{{ config }}"
         data:
           name: "{{ inventory_hostname }}-with-connections"
+          serverHardwareTypeName: "{{ server_hardware_type_name }}"
           connectionSettings:  # Supported only in API version >= 600.
             connections:
               - id: 1

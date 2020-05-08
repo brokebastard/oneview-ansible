@@ -18,13 +18,13 @@
   vars:
     config: "{{ playbook_dir }}/oneview_config.json"
     # set the name of an existent server profile to run this example
-    server_profile_name: "RHEl76"
+    server_profile_name: "localhost"
     # set the uri of an existent enclosure group to run this example
-    enclosure_group_uri: '/rest/enclosure-groups/0f2a3f46-36ad-4c8f-9e88-763c062855d3'
+    enclosure_group_uri: '/rest/enclosure-groups/3590497b-0f66-45d7-8c59-b2819fb9c1a9'
     # set the uri of an existent server hardware type to run this example
-    server_hardware_type_uri: '/rest/server-hardware-types/1A7C413B-6677-49A6-B435-09A71490EBB4'
+    server_hardware_type_uri: '/rest/server-hardware-types/5B33CDE0-7A4B-439C-960B-0F4A10F8F86E'
     # set the ID of an existent storage system to run this example
-    storage_system_id: "MXN6122CVA"
+    storage_system_id: "THREEPAR-2"
   tasks:
     - name: Gather facts about all Server Profiles
       oneview_server_profile_facts:

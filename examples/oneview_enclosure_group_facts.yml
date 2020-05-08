@@ -17,8 +17,8 @@
 - hosts: all
   vars:
     - config: "{{ playbook_dir }}/oneview_config.json"
-    - name: "SYN03_EC"
-    - scope_uris: "/rest/scopes/cd237b60-09e2-45c4-829e-082e318a6d2a"
+    - name: "EG"
+    - scope_uris: "/rest/scopes/5049d3e3-0367-451d-a555-b2603f09a5d5"
   tasks:
     - name: Gather facts about all Enclosure Groups
       oneview_enclosure_group_facts:
@@ -47,4 +47,3 @@
 
     - debug: var=enclosure_groups
 
-    - debug: var=enclosure_group_script

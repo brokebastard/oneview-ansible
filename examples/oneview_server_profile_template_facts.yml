@@ -17,10 +17,10 @@
 - hosts: all
   vars:
     config: "{{ playbook_dir }}/oneview_config.json"
-    server_profile_template_name: "ProfileTemplate"
-    enclosure_group_uri: "/rest/enclosure-groups/0f2a3f46-36ad-4c8f-9e88-763c062855d3"
-    server_hardware_type_uri: "/rest/server-hardware-types/5DC5ABD6-5F43-4D76-BB35-04DD814369D0"
-    scope_uris: "/rest/scopes/74877630-9a22-4061-9db4-d12b6c4cfee0"
+    server_profile_template_name: "spt_basic"
+    enclosure_group_uri: "/rest/enclosure-groups/3590497b-0f66-45d7-8c59-b2819fb9c1a9"
+    server_hardware_type_uri: "/rest/server-hardware-types/5B33CDE0-7A4B-439C-960B-0F4A10F8F86E"
+    scope_uris: "/rest/scopes/5049d3e3-0367-451d-a555-b2603f09a5d5"
   tasks:
     - name: Gather facts about all Server Profile Templates
       oneview_server_profile_template_facts:

@@ -19,8 +19,8 @@
     config: "{{ playbook_dir }}/oneview_config.json"
     server_profile_template_name: example_spt1
     server_hardware_type_name: SY 480 Gen9 2
-    enclosure_group_name: SYN03_EC
-    server_profile_name: RHEl76
+    enclosure_group_name: EG
+    server_profile_name: test_1
   tasks:
     - name: Create a server profile template
       oneview_server_profile_template:
