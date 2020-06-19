@@ -21,32 +21,32 @@
   vars:
     - config: "{{ playbook_dir }}/oneview_config.json"
     # Set the existent Deployment Plan name
-    - deployment_plan_name: "Deployment Plan"
+    - deployment_plan_name: "test_SP"
     # Set the URI of an existent Enclosure Group (OS Deployment enabled)
-    - enclosure_group_uri: '/rest/enclosure-groups/184736fb-c64b-420f-b73f-ed62a9d9ea43'
+    - enclosure_group_uri: '/rest/enclosure-groups/0f2a3f46-36ad-4c8f-9e88-763c062855d3'
     # Set the URI of an existent Server Hardware type
-    - server_hardware_type_uri: '/rest/server-hardware-types/09A00DB8-B47A-4EC1-89BF-7962E0CE0B80'
+    - server_hardware_type_uri: '/rest/server-hardware-types/EAF5971A-6C14-43FA-B537-21320CDCDCB7'
     # Set the Network URI enabled for OS Deployment
-    - network_uri : '/rest/ethernet-networks/062ff757-6ddd-47b4-b5c9-634498b85823'
+    - network_uri : '/rest/ethernet-networks/29af1597-7f2e-45d8-aaed-ee1be6c42ae2'
     # OS Custom Attributes file name (for example only), comment this line to skip file creation/reading
     - os_custom_attributes_file_name: '{{ playbook_dir }}/vars/os_attributes.yaml'
     # Enable/Disable the delete of the Server Profile at the end (demonstration only)
     - automatically_delete_created_profile: False
   tasks:
-    - name: 1. Gather OS Custom Attributes from OS Deployment Plan
-      oneview_os_deployment_plan_facts:
-        config: "{{ config }}"
-        name: "{{ deployment_plan_name }}"
-        options:
-          # This option will generate an os_deployment_plan_custom_attributes facts in a Server Profile format
-          - osCustomAttributesForServerProfile
-      delegate_to: localhost
-
-    # Copy contents of the fact to a local file, allowing the user to edit it
-    - name: "2. [Optional] Exporting OS Custom Attributes to the file: {{ os_custom_attributes_file_name }}"
-      copy: content="{{ os_deployment_plan_custom_attributes | to_nice_yaml }}" dest="{{ os_custom_attributes_file_name }}"
-      when: os_custom_attributes_file_name is defined
-      delegate_to: localhost
+#    - name: 1. Gather OS Custom Attributes from OS Deployment Plan
+#      oneview_os_deployment_plan_facts:
+#        config: "{{ config }}"
+#        name: "{{ deployment_plan_name }}"
+#        options:
+#          # This option will generate an os_deployment_plan_custom_attributes facts in a Server Profile format
+#          - osCustomAttributesForServerProfile
+#      delegate_to: localhost
+#
+#    # Copy contents of the fact to a local file, allowing the user to edit it
+#    - name: "2. [Optional] Exporting OS Custom Attributes to the file: {{ os_custom_attributes_file_name }}"
+#      copy: content="{{ os_deployment_plan_custom_attributes | to_nice_yaml }}" dest="{{ os_custom_attributes_file_name }}"
+#      when: os_custom_attributes_file_name is defined
+#      delegate_to: localhost
 
     # Load variables from the file (this play register os_custom_attributes_for_server_profile variable)
     - name: "3. [Optional] Reading OS Custom Attributes from the file: {{ os_custom_attributes_file_name }}"
@@ -62,8 +62,10 @@
     - name: 5. Create the Server Profile
       oneview_server_profile:
          config: "{{ config }}"
+         params:
+           force: true
          data:
-           name: "{{ inventory_hostname }}"
+           name: test2
            serverHardwareTypeUri: "{{ server_hardware_type_uri }}"
            enclosureGroupUri: "{{ enclosure_group_uri }}"
            boot:
@@ -74,36 +76,55 @@
               manageMode: true
               mode: UEFIOptimized
               pxeBootPolicy: Auto
-           connections:
-            - id: 1
-              portId: "Mezz 3:1-a"
-              name: 'connection1'
-              functionType: 'Ethernet'
-              networkUri: '{{ network_uri }}'
-              requestedMbps: 2500
-              requestedVFs: "Auto"
-              boot:
-                priority: Primary
-                initiatorNameSource: ProfileInitiatorName
-            - id: 2
-              portId: "Mezz 3:2-a"
-              name: 'connection2'
-              functionType: 'Ethernet'
-              networkUri: '{{ network_uri }}'
-              requestedMbps: 2500
-              requestedVFs: "Auto"
-              boot:
-                priority: Secondary
-                initiatorNameSource: ProfileInitiatorName
+           connectionSettings:
+             connections:
+               - id: 1
+                 portId: "Mezz 3:1-a"
+                 name: 'connection1'
+                 functionType: 'Ethernet'
+                 networkUri: '{{ network_uri }}'
+                 requestedMbps: 2500
+                 requestedVFs: "Auto"
+                 boot:
+                  priority: Primary
+                  ethernetBootType: "iSCSI"
+               - id: 2
+                 portId: "Mezz 3:2-a"
+                 name: 'connection2'
+                 functionType: 'Ethernet'
+                 networkUri: '{{ network_uri }}'
+                 requestedMbps: 2500
+                 requestedVFs: "Auto"
+                 boot:
+                   priority: Secondary
+                   ethernetBootType: "iSCSI"
+               - id: 3
+                 portId: "Auto"
+                 name: 'm1'
+                 functionType: 'Ethernet'
+                 networkUri: '/rest/ethernet-networks/6de2920a-8ad4-4cd8-865c-1907d3b4682e'
+                 requestedMbps: 2500
+                 requestedVFs: "Auto"
+                 boot:
+                  priority: NotBootable
+               - id: 4
+                 portId: "Auto"
+                 name: 'm2'
+                 functionType: 'Ethernet'
+                 networkUri: '/rest/ethernet-networks/3ebf86fb-89fd-4cf8-b369-441690555cea'
+                 requestedMbps: 2500
+                 requestedVFs: "Auto"
+                 boot:
+                  priority: NotBootable
 
            # OS Deployment Settings
            osDeploymentSettings:
               # This came from the oneview_os_deployment_plan_facts module
               # If you prefer, you may provide an osDeploymentPlanName attribute instead.
-              osDeploymentPlanUri: "{{ os_deployment_plans.0.uri }}"
+            osDeploymentPlanUri: "/rest/os-deployment-plans/98f610dc-a9a7-4fda-967b-a7fcd3de2121"
               # os_custom_attributes_for_server_profile may have been loaded from the file or
               # from the oneview_os_deployment_plan_facts output variable
-              osCustomAttributes: "{{ os_custom_attributes_for_server_profile }}"
+            osCustomAttributes: "{{ os_custom_attributes_for_server_profile }}"
       delegate_to: localhost
     - debug: var=server_profile
 

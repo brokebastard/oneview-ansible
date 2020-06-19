@@ -336,10 +336,11 @@ class ServerProfileModule(OneViewModule):
                     and not self.data.get('enclosureUri') and not self.data.get('enclosureBay'):
                 self.data['serverHardwareUri'] = self._auto_assign_server_profile()
 
+	    f1 = open('logs.txt', 'w')
+            f1.write(str(self.data))
             merged_data = ServerProfileMerger().merge_data(self.current_resource.data, self.data)
 
             self.__validations_for_os_custom_attributes(merged_data, self.current_resource.data)
-
             if not compare(self.current_resource.data, merged_data):
                 self.__update_server_profile(merged_data)
                 changed = True
