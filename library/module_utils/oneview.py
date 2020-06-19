@@ -810,8 +810,7 @@ class SPKeys(object):
 
 class ServerProfileMerger(object):
     def merge_data(self, resource, data):
-        merged_data = deepcopy(resource)
-        merged_data.update(data)
+        merged_data = dict_merge(merged_resource, data)
 
         merged_data = self._merge_bios_and_boot(merged_data, resource, data)
         merged_data = self._merge_connections(merged_data, resource, data)
@@ -820,6 +819,25 @@ class ServerProfileMerger(object):
         merged_data = self._merge_local_storage(merged_data, resource, data)
 
         return merged_data
+
+    def dict_merge(merged_resource, data):
+        for k, v in data.items():
+            if not merged_resource.get(k):
+                merged_resource[k] = v
+            elif isinstance(merged_resource[k], dict) and isinstance(data[k], collections.Mapping):
+                merged_resource[k] = dict_merge(merged_data[k], data[k])
+            elif isinstance(merged_resource[k], list) and isinstance(data[k], list):
+                tmp_list1 = []
+                tmp_list2 = []
+                for i,v in enumerate(merged_resource[k]):
+                    tmp_list1.append([i,v])
+                for i,v in enumerate(data[k]):
+                    tmp_list2.append([i,v])
+                output_dict = dict_merge(dict(tmp_list1), dict(tmp_list2))
+                merged_resource[k] = list(output_dict.values())
+            else:
+                merged_resource[k] = v
+        return merged_resource
 
     def _merge_bios_and_boot(self, merged_data, resource, data):
         if self._should_merge(data, resource, key=SPKeys.BIOS):
@@ -890,8 +908,6 @@ class ServerProfileMerger(object):
 
     def _merge_os_deployment_settings(self, merged_data, resource, data):
         if self._should_merge(data, resource, key=SPKeys.OS_DEPLOYMENT):
-            merged_data = self._merge_dict(merged_data, resource, data, key=SPKeys.OS_DEPLOYMENT)
-
             merged_data = self._merge_os_deployment_custom_attr(merged_data, resource, data)
         return merged_data
 
