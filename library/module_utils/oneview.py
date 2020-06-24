@@ -922,8 +922,6 @@ class ServerProfileMerger(object):
 
     def _merge_os_deployment_settings(self, merged_data, resource, data):
         if self._should_merge(data, resource, key=SPKeys.OS_DEPLOYMENT):
-            merged_data = self._merge_dict(merged_data, resource, data, key=SPKeys.OS_DEPLOYMENT)
-
             merged_data = self._merge_os_deployment_custom_attr(merged_data, resource, data)
         return merged_data
 
@@ -938,10 +936,8 @@ class ServerProfileMerger(object):
             else:
                 existing_attributes = existing_os_deployment[SPKeys.ATTRIBUTES]
                 params_attributes = params_os_deployment[SPKeys.ATTRIBUTES]
-
                 if compare_list(existing_attributes, params_attributes):
                     merged_os_deployment[SPKeys.ATTRIBUTES] = existing_attributes
-
         return merged_data
 
     def _merge_local_storage(self, merged_data, resource, data):

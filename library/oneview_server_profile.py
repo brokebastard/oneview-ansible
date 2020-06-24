@@ -337,10 +337,10 @@ class ServerProfileModule(OneViewModule):
                 self.data['serverHardwareUri'] = self._auto_assign_server_profile()
 
             merged_data = ServerProfileMerger().merge_data(self.current_resource.data, self.data)
-
             self.__validations_for_os_custom_attributes(merged_data, self.current_resource.data)
-
-            if not compare(self.current_resource.data, merged_data):
+            merged_data_copy = deepcopy(merged_data)
+            resource_copy = deepcopy(self.current_resource.data)
+            if not compare(resource_copy, merged_data_copy):
                 self.__update_server_profile(merged_data)
                 changed = True
                 msg = self.MSG_UPDATED
