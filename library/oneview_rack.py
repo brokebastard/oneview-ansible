@@ -1,7 +1,7 @@
-#!/isr/bin/python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 ###
-# Copyright (2016-2017) Hewlett Packard Enterprise Development LP
+# Copyright (2016-2020) Hewlett Packard Enterprise Development LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # You may not use this file except in compliance with the License.
@@ -57,19 +57,19 @@ EXAMPLES = '''
     data:
       name: 'Rack Name'
 
-- name: Add rack with custom size and a single mounted enclosure at slot 20
+- name: Rename the rack, change size and add single mounted server hardware at slot 42
   oneview_rack:
     config: "{{ config_file_path }}"
     state: present
     data:
-      name: 'Rack101'
+      name: 'Rack Name'
       depth: 1500
       height: 2500
       width: 1200
       rackMounts:
-        - mountUri: "/rest/enclosures/39SGH102X6J2"
-          topUSlot: 20
-          uHeight: 10
+        - mountUri: "/rest/server-hardware/37353738-3336-584D-5131-303030343037"
+          topUSlot: 42
+          uHeight: 2
 
 - name: Rename the Rack to 'Rack101'
   oneview_rack:
@@ -175,6 +175,7 @@ class RackModule(OneViewModuleBase):
             changed = False
             msg = self.MSG_ALREADY_ABSENT
         return changed, msg, dict(rack=None)
+
 
 def main():
     RackModule().run()

@@ -65,7 +65,7 @@ class TestRackModule(OneViewBaseTest):
 
         self.mock_ansible_module.exit_json.assert_called_once_with(
             changed=True,
-            msg=RackModule.MSG_CREATED,
+            msg=RackModule.MSG_ADDED,
             ansible_facts=dict(rack=DEFAULT_RACK_TEMPLATE)
         )
 
