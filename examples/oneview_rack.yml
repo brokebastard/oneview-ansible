@@ -24,7 +24,7 @@
         config: "{{ config_file_path }}"
         state: present
         data:
-          name: 'New Rack'
+          name: 'Rack-485'
 
     - debug: var=rack
 
@@ -33,15 +33,15 @@
         config: "{{ config_file_path }}"
         state: present
         data:
-          name: 'New Rack'
+          name: 'Rack-485'
           newName: 'Rename Rack'
           depth: 1500
           height: 2500
           width: 1200
           rackMounts:
-            - mountUri: "{{ enclosure_uri }}"
-              topUSlot: 20
-              uHeight: 10
+            - mountUri: "/rest/server-hardware/37353738-3336-584D-5131-303030343037"
+              topUSlot: 42
+              uHeight: 2
     - debug: var=rack
 
     - name: Ensure that Rack is absent
