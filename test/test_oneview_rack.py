@@ -109,7 +109,8 @@ class TestRackModule(OneViewBaseTest):
 
         self.mock_ansible_module.exit_json.assert_called_once_with(
             changed=True,
-            msg=RackModule.MSG_DELETED
+            msg=RackModule.MSG_DELETED,
+            ansible_facts=None
         )
 
     def test_should_do_nothing_when_rack_not_exist(self):
@@ -121,7 +122,8 @@ class TestRackModule(OneViewBaseTest):
 
         self.mock_ansible_module.exit_json.assert_called_once_with(
             changed=False,
-            msg=RackModule.MSG_ALREADY_ABSENT
+            msg=RackModule.MSG_ALREADY_ABSENT,
+            ansible_facts=None
         )
 
 

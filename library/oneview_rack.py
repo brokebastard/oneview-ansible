@@ -164,7 +164,7 @@ class RackModule(OneViewModuleBase):
             updated_response = self.resource_client.update(merged_data)
             return True, self.MSG_UPDATED, dict(rack=updated_response)
         else:
-            return False, self.MSG_ALREADY_PRESENT, dict(rack=updated_response)
+            return False, self.MSG_ALREADY_PRESENT, dict(rack=self.current_resource)
 
     def __absent(self):
         if self.current_resource:
